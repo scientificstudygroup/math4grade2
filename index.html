@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pro100% — Модуль 2: Знайти частину W</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:#2563EB;--blue-l:#DBEAFE;--blue-d:#1E40AF;
+  --green:#16A34A;--green-l:#DCFCE7;
+  --amber:#D97706;--amber-l:#FEF3C7;--amber-d:#92400E;
+  --red:#DC2626;--red-l:#FEE2E2;--red-d:#991B1B;
+  --purple:#7C3AED;--purple-l:#EDE9FE;
+  --gray:#F1F5F9;--dark:#1E293B;--mid:#64748B;--white:#FFFFFF;
+  --radius:14px;--radius-sm:8px;--shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito Sans',sans-serif;background:#F0F4FF;color:var(--dark);min-height:100vh;}
+h1,h2,.badge,.task-title,.day-title{font-family:'Nunito',sans-serif;}
+
+.header{background:var(--blue);color:white;padding:20px 24px 16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(37,99,235,0.3);}
+.header-top{display:flex;align-items:center;justify-content:space-between;max-width:680px;margin:0 auto;}
+.logo{font-size:28px;font-weight:900;letter-spacing:-1px;}
+.logo span{color:#93C5FD;}
+.module-badge{background:rgba(255,255,255,0.2);border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;}
+.progress-bar{max-width:680px;margin:12px auto 0;height:6px;background:rgba(255,255,255,0.25);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:white;border-radius:3px;transition:width 0.5s ease;}
+.progress-text{max-width:680px;margin:6px auto 0;display:flex;justify-content:space-between;font-size:12px;opacity:0.8;}
+
+.main{max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+
+.day-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;}
+.day-tab{background:white;border:2px solid transparent;border-radius:var(--radius-sm);padding:10px 6px;text-align:center;cursor:pointer;transition:all 0.2s;font-family:'Nunito',sans-serif;font-weight:700;}
+.day-tab .tab-num{font-size:18px;display:block;}
+.day-tab .tab-label{font-size:11px;color:var(--mid);display:block;margin-top:2px;}
+.day-tab.active{border-color:var(--blue);background:var(--blue-l);}
+.day-tab.done .tab-num::after{content:" ✓";color:var(--green);font-size:14px;}
+.day-tab:hover:not(.active){border-color:#CBD5E1;}
+
+.day-content{display:none;}
+.day-content.active{display:block;}
+
+.day-banner{border-radius:var(--radius);padding:20px 22px;margin-bottom:20px;color:white;}
+.day-banner.d1{background:linear-gradient(135deg,#2563EB,#1D4ED8);}
+.day-banner.d2{background:linear-gradient(135deg,#16A34A,#15803D);}
+.day-banner.d3{background:linear-gradient(135deg,#7C3AED,#6D28D9);}
+.day-banner.d4{background:linear-gradient(135deg,#DC2626,#B91C1C);}
+.day-title{font-size:20px;font-weight:800;margin-bottom:4px;}
+.day-sub{font-size:13px;opacity:0.85;}
+
+.card{background:white;border-radius:var(--radius);padding:18px 20px;margin-bottom:16px;box-shadow:var(--shadow);}
+.card-info{border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:14px 16px;margin-bottom:16px;}
+.card-info.blue{background:var(--blue-l);border-left:4px solid var(--blue);}
+.card-info.green{background:var(--green-l);border-left:4px solid var(--green);}
+.card-info.amber{background:var(--amber-l);border-left:4px solid var(--amber);}
+.card-info.purple{background:var(--purple-l);border-left:4px solid var(--purple);}
+.card-info.red{background:var(--red-l);border-left:4px solid var(--red);}
+.info-title{font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;margin-bottom:8px;}
+.info-body{font-size:14px;line-height:1.7;}
+
+.task-num{font-size:12px;color:var(--purple);font-weight:700;font-family:'Nunito',sans-serif;}
+.task-title{font-size:16px;font-weight:700;margin-bottom:12px;}
+
+.dialog{display:flex;gap:10px;margin:10px 0;}
+.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;font-weight:800;font-family:'Nunito',sans-serif;}
+.avatar.tim{background:var(--blue-l);color:var(--blue);}
+.avatar.sofia{background:var(--red-l);color:var(--red);}
+.bubble{background:var(--gray);border-radius:0 var(--radius-sm) var(--radius-sm) var(--radius-sm);padding:10px 14px;font-size:13px;line-height:1.6;flex:1;font-style:italic;}
+.bubble.tim{background:var(--blue-l);border-radius:var(--radius-sm) 0 var(--radius-sm) var(--radius-sm);}
+.bubble.sofia{background:var(--red-l);}
+
+.code-block{background:#1E293B;color:#38BDF8;border-radius:var(--radius-sm);padding:14px 16px;font-family:'Courier New',monospace;font-size:14px;line-height:1.8;margin:10px 0;}
+
+.data-table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0;}
+.data-table th{background:var(--blue);color:white;padding:8px 10px;text-align:left;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;}
+.data-table th:first-child{border-radius:8px 0 0 0;}
+.data-table th:last-child{border-radius:0 8px 0 0;}
+.data-table td{padding:8px 10px;border-bottom:1px solid #F1F5F9;}
+.data-table tr:nth-child(even) td{background:var(--gray);}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table.green th{background:var(--green);}
+.data-table.purple th{background:var(--purple);}
+.data-table.red th{background:var(--red);}
+.data-table.amber th{background:var(--amber);}
+
+/* Infographic */
+.infographic{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0;}
+.icon-card{border-radius:var(--radius);padding:14px 12px;text-align:center;}
+.icon-card.blue{background:var(--blue-l);border:2px solid var(--blue);}
+.icon-card.amber{background:var(--amber-l);border:2px solid var(--amber);}
+.icon-card.red{background:var(--red-l);border:2px solid var(--red);}
+.icon-circle{width:52px;height:52px;border-radius:50%;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:'Nunito',sans-serif;}
+.icon-circle.filled{background:var(--blue);color:white;font-size:13px;}
+.icon-circle.sector{position:relative;background:none;}
+.icon-circle.sector svg{width:52px;height:52px;}
+.icon-circle.pct{background:var(--red);color:white;font-size:22px;}
+.icon-label{font-family:'Nunito',sans-serif;font-weight:700;font-size:15px;margin-bottom:2px;}
+.icon-sub{font-size:11px;color:var(--mid);}
+
+.country-table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0;}
+.country-table th{padding:8px 10px;text-align:center;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;}
+.country-table td{padding:8px 10px;text-align:center;border-bottom:1px solid #F1F5F9;}
+.country-table tr:last-child td{border-bottom:none;}
+.country-table tr:nth-child(even) td{background:var(--gray);}
+.th-blue{background:var(--blue-l);color:var(--blue-d);}
+.th-amber{background:var(--amber-l);color:var(--amber-d);}
+.th-red{background:var(--red-l);color:var(--red-d);}
+.th-gray{background:var(--gray);}
+
+/* Steps */
+.step-box{background:var(--gray);border-radius:var(--radius-sm);padding:12px 16px;margin:8px 0;display:flex;gap:12px;align-items:flex-start;}
+.step-num{background:var(--blue);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;flex-shrink:0;}
+
+/* Input fields */
+.fill-input{width:60px;padding:6px;border:2px solid #CBD5E1;border-radius:6px;font-size:15px;text-align:center;font-family:'Nunito',sans-serif;font-weight:700;}
+.fill-input:focus{outline:none;border-color:var(--blue);}
+
+/* Buttons */
+.btn-check{background:var(--blue);color:white;border:none;border-radius:var(--radius-sm);padding:10px 20px;font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;cursor:pointer;margin-top:12px;transition:all 0.2s;}
+.btn-check:hover{opacity:0.9;}
+.btn-check.green{background:var(--green);}
+.btn-check.purple{background:var(--purple);}
+.btn-check.red{background:var(--red);}
+.btn-check.amber{background:var(--amber);}
+.btn-clear{background:transparent;color:var(--mid);border:1.5px solid #CBD5E1;border-radius:var(--radius-sm);padding:10px 16px;font-family:'Nunito',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:all 0.2s;margin-top:12px;margin-left:8px;}
+.btn-clear:hover{border-color:var(--blue);color:var(--blue);}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+
+.pct-btn{background:white;border:2px solid #CBD5E1;border-radius:20px;padding:6px 16px;font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:background 0.1s,border-color 0.1s,color 0.1s;-webkit-appearance:none;}
+.pct-btn:hover:not(.selected){border-color:var(--blue);color:var(--blue);}
+.pct-btn.selected,.pct-btn.selected:hover,.pct-btn.selected:focus,.pct-btn.selected:active{background:#2563EB!important;border-color:#2563EB!important;color:white!important;}
+
+.answer-box{border-radius:var(--radius-sm);padding:12px 16px;margin-top:12px;font-size:14px;display:none;}
+.answer-box.visible{display:block;}
+
+.task-item{background:var(--gray);border-radius:8px;padding:10px 14px;margin-bottom:8px;}
+.task-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0;}
+
+@media(max-width:480px){
+  .day-tab .tab-label{display:none;}
+  .infographic{gap:6px;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo">Pro<span>100</span>%</div>
+    <div class="module-badge">М2 — Знайти частину W</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-text"><span id="progressText">День 1 з 4</span><span id="progressPct">0%</span></div>
+</div>
+
+<div class="main">
+
+<!-- Intro infographic -->
+<div class="card-info blue" style="margin-bottom:16px;">
+  <div class="info-title">📌 Три числа у кожній задачі</div>
+  <div class="infographic">
+    <div class="icon-card blue">
+      <div class="icon-circle filled">100%</div>
+      <div class="icon-label" style="color:var(--blue-d);">🔵 Ціле</div>
+      <div class="icon-sub">G / B — завжди 100%</div>
+    </div>
+    <div class="icon-card amber">
+      <div class="icon-circle sector">
+        <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="none" stroke="#D97706" stroke-width="2" stroke-dasharray="5 3"/><path d="M26 26 L50 26 A24 24 0 0 1 39 47 Z" fill="#FCD34D" stroke="#D97706" stroke-width="1.5"/></svg>
+      </div>
+      <div class="icon-label" style="color:var(--amber-d);">🟡 Частина</div>
+      <div class="icon-sub">W / P — шукаємо</div>
+    </div>
+    <div class="icon-card red">
+      <div class="icon-circle pct">%</div>
+      <div class="icon-label" style="color:var(--red-d);">🔴 Відсоток</div>
+      <div class="icon-sub">p% / r — скільки з ста</div>
+    </div>
+  </div>
+  <table class="country-table">
+    <tr><th class="th-gray">Країна</th><th class="th-blue">🔵 Ціле</th><th class="th-amber">🟡 Частина</th><th class="th-red">🔴 Відсоток</th></tr>
+    <tr><td>🇩🇪 Нім.</td><td style="color:var(--blue-d);font-weight:600;">G Grundwert</td><td style="color:var(--amber-d);font-weight:600;">W Prozentwert</td><td style="color:var(--red-d);font-weight:600;">p% Prozentsatz</td></tr>
+    <tr><td>🇬🇧🇺🇸 Англ.</td><td style="color:var(--blue-d);font-weight:600;">B Base</td><td style="color:var(--amber-d);font-weight:600;">P Part</td><td style="color:var(--red-d);font-weight:600;">r Rate</td></tr>
+    <tr><td>🇺🇦 Укр.</td><td style="color:var(--blue-d);font-weight:600;">G Основне</td><td style="color:var(--amber-d);font-weight:600;">W Відсоткове</td><td style="color:var(--red-d);font-weight:600;">p% Відсоток</td></tr>
+    <tr style="background:var(--blue-l);"><td style="font-weight:700;">🎯 Наш курс</td><td style="color:var(--blue-d);font-weight:700;">🔵 Ціле</td><td style="color:var(--amber-d);font-weight:700;">🟡 Частина</td><td style="color:var(--red-d);font-weight:700;">🔴 %</td></tr>
+  </table>
+</div>
+
+<!-- TABS -->
+<div class="day-tabs">
+  <div class="day-tab active" onclick="switchDay(1)" id="tab1"><span class="tab-num">1</span><span class="tab-label">Через 1%</span></div>
+  <div class="day-tab" onclick="switchDay(2)" id="tab2"><span class="tab-num">2</span><span class="tab-label">Через 10%</span></div>
+  <div class="day-tab" onclick="switchDay(3)" id="tab3"><span class="tab-num">3</span><span class="tab-label">Формула</span></div>
+  <div class="day-tab" onclick="switchDay(4)" id="tab4"><span class="tab-num">4</span><span class="tab-label">Знайти p%</span></div>
+</div>
+
+<!-- ══ ДЕНЬ 1 ══ -->
+<div class="day-content active" id="day1">
+  <div class="day-banner d1">
+    <div class="day-title">День 1 — Знайти частину через 1%</div>
+    <div class="day-sub">Метод через 1% — основа всіх способів</div>
+  </div>
+
+  <div class="card-info blue">
+    <div class="info-title">📌 Метод через 1%</div>
+    <div class="code-block">Крок 1: знайди 1%  →  G ÷ 100
+Крок 2: знайди p%  →  1% × p</div>
+    <div style="font-size:14px;margin-top:8px;">Приклад: у класі <strong>100</strong> учнів. Скільки це — <strong>20%</strong>?</div>
+    <div class="code-block">Крок 1: 1% від 100 = 100 ÷ 100 = 1 учень
+Крок 2: 20% = 1 × 20 = 20 учнів</div>
+  </div>
+
+  <div class="card-info amber">
+    <div class="info-title">📌 Skonto — знижка за швидку оплату</div>
+    <div class="info-body">Рахунок <strong>200€</strong>. Постачальник: «Заплатиш за 10 днів — знижка 2%.»</div>
+    <div class="code-block">Крок 1: 1% від 200 = 2€
+Крок 2: 2% = 2 × 2 = 4€ — знижка
+Заплатиш: 200 − 4 = 196€</div>
+  </div>
+
+  <!-- Завдання 1.1 -->
+  <div class="card">
+    <div class="task-num">★ Завдання 1.1</div>
+    <div class="task-title">Перші кроки через 1%</div>
+    <div class="dialog"><div class="avatar tim">Т</div><div class="bubble tim">Якщо ціле 100 — то 1% завжди дорівнює 1!</div></div>
+    <p style="font-size:14px;margin:10px 0 6px;">Заповни обидва кроки:</p>
+    <div id="task11"></div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="check11()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset11()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans11"></div>
+  </div>
+
+  <!-- Завдання 1.2 -->
+  <div class="card">
+    <div class="task-num">★ Завдання 1.2</div>
+    <div class="task-title">Ціле не 100</div>
+    <div id="task12"></div>
+    <div class="btn-row">
+      <button class="btn-check green" onclick="check12()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset12()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans12"></div>
+    <div class="dialog" style="margin-top:10px;"><div class="avatar tim">Т</div><div class="bubble tim">Метод завжди однаковий — тільки перший крок змінюється!</div></div>
+  </div>
+
+  <!-- Завдання 1.3 -->
+  <div class="card">
+    <div class="task-num">★ Завдання 1.3</div>
+    <div class="task-title">Заповни таблицю</div>
+    <div id="task13"></div>
+    <div class="btn-row">
+      <button class="btn-check purple" onclick="check13()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset13()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans13"></div>
+  </div>
+
+  <!-- Завдання 1.4 -->
+  <div class="card">
+    <div class="task-num">★★ Завдання 1.4</div>
+    <div class="task-title">Знайди помилку Тіма</div>
+    <div id="task14"></div>
+    <div class="btn-row">
+      <button class="btn-check red" onclick="check14()">Перевірити ✓</button>
+    </div>
+    <div class="answer-box" id="ans14"></div>
+  </div>
+
+  <!-- Завдання 1.5 -->
+  <div class="card">
+    <div class="task-num">★★ Завдання 1.5</div>
+    <div class="task-title">Реальні задачі</div>
+    <table class="data-table">
+      <tr><th>Задача</th><th>Розв'язання</th><th>Відповідь</th></tr>
+      <tr><td>а) Куртка 200€, знижка 20%</td><td>1%=2€, 20%=40€</td><td>40€ знижка, 160€</td></tr>
+      <tr><td>б) 100 учнів, 30% — музика</td><td>1%=1, 30%=30</td><td>30 учнів</td></tr>
+      <tr><td>в) Skonto: 300€, 2% за 10 днів</td><td>1%=3€, 2%=6€</td><td>6€ економія, 294€</td></tr>
+      <tr><td>г) Телефон 400 mAh, 25% заряду</td><td>1%=4, 25%=100</td><td>100 mAh</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══ ДЕНЬ 2 ══ -->
+<div class="day-content" id="day2">
+  <div class="day-banner d2">
+    <div class="day-title">День 2 — Знайти частину через 10%</div>
+    <div class="day-sub">Таблиця швидкого рахунку</div>
+  </div>
+
+  <div class="card-info green">
+    <div class="info-title">📌 Метод через 10%</div>
+    <div class="code-block">Крок 1: знайди 10%  →  G ÷ 10
+Крок 2: знайди p%   →  10% × (p ÷ 10)</div>
+    <div style="font-size:14px;margin-top:8px;">Приклад: у школі <strong>200</strong> учнів. Знайди <strong>30%</strong>.</div>
+    <div class="code-block">Крок 1: 10% від 200 = 200 ÷ 10 = 20
+Крок 2: 30% = 20 × 3 = 60</div>
+  </div>
+
+  <div class="card-info green">
+    <div class="info-title">📌 Таблиця швидкого рахунку (від 80)</div>
+    <table class="data-table green">
+      <tr><th>Відсоток</th><th>Що робити</th><th>Від 80</th></tr>
+      <tr><td><strong>10%</strong></td><td>÷ 10</td><td>8</td></tr>
+      <tr><td><strong>20%</strong></td><td>÷ 5</td><td>16</td></tr>
+      <tr><td><strong>40%</strong></td><td>10% × 4</td><td>32</td></tr>
+      <tr><td><strong>50%</strong></td><td>÷ 2</td><td>40</td></tr>
+      <tr><td><strong>60%</strong></td><td>10% × 6</td><td>48</td></tr>
+      <tr><td><strong>80%</strong></td><td>10% × 8</td><td>64</td></tr>
+      <tr><td><strong>90%</strong></td><td>100% − 10%</td><td>72</td></tr>
+      <tr><td><strong>5%</strong></td><td>10% ÷ 2</td><td>4</td></tr>
+      <tr><td><strong>15%</strong></td><td>10% + 5%</td><td>12</td></tr>
+    </table>
+  </div>
+
+  <!-- Завдання 2.1 -->
+  <div class="card">
+    <div class="task-num">★ Завдання 2.1</div>
+    <div class="task-title">Перші кроки через 10%</div>
+    <div id="task21"></div>
+    <div class="btn-row">
+      <button class="btn-check green" onclick="check21()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset21()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans21"></div>
+  </div>
+
+  <!-- Завдання 2.2 -->
+  <div class="card">
+    <div class="task-num">★ Завдання 2.2</div>
+    <div class="task-title">Таблиця в голові</div>
+    <p style="font-size:14px;margin-bottom:10px;">Заповни таблицю рахуючи в голові:</p>
+    <div id="task22"></div>
+    <div class="btn-row">
+      <button class="btn-check green" onclick="check22()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset22()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans22"></div>
+    <div class="dialog" style="margin-top:10px;"><div class="avatar tim">Т</div><div class="bubble tim">90% від 60 — я зробив 60−6=54. Швидше ніж 6×9!</div></div>
+  </div>
+
+  <!-- Завдання 2.3 -->
+  <div class="card">
+    <div class="task-num">★ Завдання 2.3</div>
+    <div class="task-title">Через 10% чи через 1%?</div>
+    <div id="task23"></div>
+    <div class="btn-row">
+      <button class="btn-check purple" onclick="check23()">Перевірити ✓</button>
+    </div>
+    <div class="answer-box" id="ans23"></div>
+  </div>
+
+  <!-- Завдання 2.4 -->
+  <div class="card">
+    <div class="task-num">★★ Завдання 2.4</div>
+    <div class="task-title">Знайди помилку Тіма</div>
+    <div id="task24"></div>
+    <div class="btn-row">
+      <button class="btn-check red" onclick="check24()">Перевірити ✓</button>
+    </div>
+    <div class="answer-box" id="ans24"></div>
+  </div>
+
+  <!-- Завдання 2.5 -->
+  <div class="card">
+    <div class="task-num">★★ Завдання 2.5</div>
+    <div class="task-title">Реальні задачі</div>
+    <table class="data-table green">
+      <tr><th>Задача</th><th>Розв'язання</th><th>Відповідь</th></tr>
+      <tr><td>а) Велосипед 200€, знижка 30%</td><td>10%=20€, 30%=60€</td><td>60€ знижка, 140€</td></tr>
+      <tr><td>б) 80 гравців, 20% в основну</td><td>10%=8, 20%=16. Або 80÷5</td><td>16 гравців</td></tr>
+      <tr><td>в) Skonto: 120€, 5% за 7 днів</td><td>10%=12€, 5%=6€</td><td>6€ економія, 114€</td></tr>
+      <tr><td>г) Ноутбук 200 Wh, 60% заряду</td><td>10%=20, 60%=120</td><td>120 Wh</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══ ДЕНЬ 3 ══ -->
+<div class="day-content" id="day3">
+  <div class="day-banner d3">
+    <div class="day-title">День 3 — Формула W = G × p ÷ 100</div>
+    <div class="day-sub">Один крок замість двох</div>
+  </div>
+
+  <div class="card-info purple">
+    <div class="info-title">📌 Звідки береться формула?</div>
+    <table class="data-table purple" style="margin-top:8px;">
+      <tr><th>Спосіб</th><th>Запис</th><th>20% від 100</th></tr>
+      <tr><td>Через 1%</td><td>G ÷ 100 × p</td><td>100÷100×20=20</td></tr>
+      <tr><td>Через 10%</td><td>G ÷ 10 × (p÷10)</td><td>100÷10×2=20</td></tr>
+      <tr><td><strong>Формула</strong></td><td><strong>G × p ÷ 100</strong></td><td>100×20÷100=20</td></tr>
+    </table>
+    <div class="dialog" style="margin-top:10px;"><div class="avatar tim">Т</div><div class="bubble tim">Тобто я вже знав формулу — просто не знав що це вона?</div></div>
+    <div class="dialog"><div class="avatar sofia">С</div><div class="bubble sofia">Саме. Формула — це скорочений запис твоїх двох кроків в один.</div></div>
+  </div>
+
+  <div class="card-info purple">
+    <div class="info-title">📌 Формула</div>
+    <div style="font-size:20px;font-weight:800;font-family:'Nunito',sans-serif;text-align:center;padding:12px 0;color:var(--purple);">🟡 W = 🔵 G × 🔴 p ÷ 100</div>
+    <div class="info-body">Приклад: у класі <strong>120</strong> учнів. <strong>25%</strong> займаються спортом.</div>
+    <div class="code-block">G = 120,  p = 25
+W = 120 × 25 ÷ 100 = 3000 ÷ 100 = 30 учнів</div>
+  </div>
+
+  <div class="card-info purple">
+    <div class="info-title">📌 Корисні скорочення</div>
+    <table class="data-table purple" style="margin-top:8px;">
+      <tr><th>Відсоток</th><th>Формула</th><th>Скорочення</th></tr>
+      <tr><td>50%</td><td>× 50 ÷ 100</td><td>÷ 2</td></tr>
+      <tr><td>25%</td><td>× 25 ÷ 100</td><td>÷ 4</td></tr>
+      <tr><td>20%</td><td>× 20 ÷ 100</td><td>÷ 5</td></tr>
+      <tr><td>10%</td><td>× 10 ÷ 100</td><td>÷ 10</td></tr>
+      <tr><td>5%</td><td>× 5 ÷ 100</td><td>÷ 20</td></tr>
+    </table>
+  </div>
+
+  <!-- Завдання 3.1 -->
+  <div class="card">
+    <div class="task-num">★ Завдання 3.1</div>
+    <div class="task-title">Підстав у формулу</div>
+    <div id="task31"></div>
+    <div class="btn-row">
+      <button class="btn-check purple" onclick="check31()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset31()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans31"></div>
+  </div>
+
+  <!-- Завдання 3.2 -->
+  <div class="card">
+    <div class="task-num">★ Завдання 3.2</div>
+    <div class="task-title">Заповни таблицю</div>
+    <div id="task32"></div>
+    <div class="btn-row">
+      <button class="btn-check purple" onclick="check32()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset32()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans32"></div>
+  </div>
+
+  <!-- Завдання 3.3 -->
+  <div class="card">
+    <div class="task-num">★★ Завдання 3.3</div>
+    <div class="task-title">Знайди помилку Тіма</div>
+    <div id="task33"></div>
+    <div class="btn-row">
+      <button class="btn-check red" onclick="check33()">Перевірити ✓</button>
+    </div>
+    <div class="answer-box" id="ans33"></div>
+    <div class="dialog" style="margin-top:10px;"><div class="avatar sofia">С</div><div class="bubble sofia">Найчастіша помилка — забути поділити на 100. Завжди перевіряй: W має бути менше ніж G!</div></div>
+  </div>
+
+  <!-- Завдання 3.4 -->
+  <div class="card">
+    <div class="task-num">★★ Завдання 3.4</div>
+    <div class="task-title">Реальні задачі</div>
+    <table class="data-table purple">
+      <tr><th>Задача</th><th>Розв'язання</th><th>Відповідь</th></tr>
+      <tr><td>а) Ноутбук 400€, знижка 15%</td><td>400×15÷100=60€. 400−60</td><td>60€ знижка, 340€</td></tr>
+      <tr><td>б) Місто 120 000 жит., 30% спорт</td><td>120000×30÷100</td><td>36 000</td></tr>
+      <tr><td>в) Skonto: 200€, 3%</td><td>200×3÷100=6€. 200−6</td><td>6€, 194€</td></tr>
+      <tr><td>г) Батарея 400 mAh, 80%</td><td>400×80÷100</td><td>320 mAh</td></tr>
+    </table>
+  </div>
+
+  <!-- Завдання 3.5 Бонус -->
+  <div class="card">
+    <div class="task-num">★★★ Завдання 3.5</div>
+    <div class="task-title">Бонус Софії — дробові відсотки</div>
+    <div class="dialog"><div class="avatar tim">Т</div><div class="bubble tim">А що якщо відсоток дробовий — наприклад 2,5%?</div></div>
+    <div class="dialog"><div class="avatar sofia">С</div><div class="bubble sofia">Формула та сама! Просто числа трохи складніші.</div></div>
+    <table class="data-table purple" style="margin-top:10px;">
+      <tr><th>Задача</th><th>Розв'язання</th><th>Відповідь</th></tr>
+      <tr><td>а) Рахунок 200€, Skonto 2,5%</td><td>200×2,5÷100. Або 200×5÷100÷2</td><td>5€</td></tr>
+      <tr><td>б) 120 000 жит., 12,5% діти</td><td>120000×12,5÷100. Або 120000÷8</td><td>15 000</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══ ДЕНЬ 4 ══ -->
+<div class="day-content" id="day4">
+  <div class="day-banner d4">
+    <div class="day-title">День 4 — Знайти відсоток p%</div>
+    <div class="day-sub">Зворотна задача — від W і G до p%</div>
+  </div>
+
+  <div class="card-info red">
+    <div class="info-title">📌 Формула для p%</div>
+    <div style="font-size:20px;font-weight:800;font-family:'Nunito',sans-serif;text-align:center;padding:12px 0;color:var(--red);">🔴 p% = 🟡 W ÷ 🔵 G × 100</div>
+    <div class="info-body">Приклад: у класі <strong>40</strong> учнів, <strong>10</strong> відмінників. Скільки відсотків?</div>
+    <div class="code-block">p = 10 ÷ 40 × 100 = 25%</div>
+    <div class="dialog" style="margin-top:10px;"><div class="avatar sofia">С</div><div class="bubble sofia">Ділю частину на ціле і множу на 100. Завжди: Частина ÷ Ціле — не навпаки!</div></div>
+  </div>
+
+  <div class="card-info red">
+    <div class="info-title">📌 Як розпізнати що шукається</div>
+    <table class="data-table red" style="margin-top:8px;">
+      <tr><th>Питання</th><th>Шукаємо</th><th>Формула</th></tr>
+      <tr><td>«Скільки?»</td><td>🟡 W</td><td>W = G × p ÷ 100</td></tr>
+      <tr><td>«Скільки відсотків?»</td><td>🔴 p%</td><td>p = W ÷ G × 100</td></tr>
+    </table>
+  </div>
+
+  <!-- Завдання 4.1 -->
+  <div class="card">
+    <div class="task-num">★ Завдання 4.1</div>
+    <div class="task-title">Перші кроки — знайди p%</div>
+    <div id="task41"></div>
+    <div class="btn-row">
+      <button class="btn-check red" onclick="check41()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset41()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans41"></div>
+    <div class="dialog" style="margin-top:10px;"><div class="avatar tim">Т</div><div class="bubble tim">Якщо ціле 100 — відсоток = просто число. 20 з 100 = 20%!</div></div>
+  </div>
+
+  <!-- Завдання 4.2 -->
+  <div class="card">
+    <div class="task-num">★ Завдання 4.2</div>
+    <div class="task-title">Заповни таблицю</div>
+    <div id="task42"></div>
+    <div class="btn-row">
+      <button class="btn-check red" onclick="check42()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset42()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans42"></div>
+  </div>
+
+  <!-- Завдання 4.3 -->
+  <div class="card">
+    <div class="task-num">★ Завдання 4.3</div>
+    <div class="task-title">Знайди питання — W чи p%?</div>
+    <div id="task43"></div>
+    <div class="btn-row">
+      <button class="btn-check red" onclick="check43()">Перевірити ✓</button>
+    </div>
+    <div class="answer-box" id="ans43"></div>
+  </div>
+
+  <!-- Завдання 4.4 -->
+  <div class="card">
+    <div class="task-num">★★ Завдання 4.4</div>
+    <div class="task-title">Велика змішана таблиця</div>
+    <div id="task44"></div>
+    <div class="btn-row">
+      <button class="btn-check red" onclick="check44()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset44()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans44"></div>
+  </div>
+
+  <!-- Завдання 4.5 -->
+  <div class="card">
+    <div class="task-num">★★ Завдання 4.5</div>
+    <div class="task-title">Знайди помилку Тіма</div>
+    <div id="task45"></div>
+    <div class="btn-row">
+      <button class="btn-check red" onclick="check45()">Перевірити ✓</button>
+    </div>
+    <div class="answer-box" id="ans45"></div>
+    <div class="dialog" style="margin-top:10px;"><div class="avatar sofia">С</div><div class="bubble sofia">Найчастіша помилка — переплутати W і G місцями. Завжди: Частина ÷ Ціле!</div></div>
+  </div>
+
+  <!-- Завдання 4.6 Реальні -->
+  <div class="card">
+    <div class="task-num">★★ Завдання 4.6</div>
+    <div class="task-title">Реальні задачі</div>
+    <table class="data-table red">
+      <tr><th>Задача</th><th>Розв'язання</th><th>Відповідь</th></tr>
+      <tr><td>а) 30 учнів, 24 написали добре</td><td>p=24÷30×100</td><td>80%</td></tr>
+      <tr><td>б) 200 товарів, 30 продали</td><td>p=30÷200×100</td><td>15%</td></tr>
+      <tr><td>в) 80 гостей, 20% замовили піцу — скільки?</td><td>W=80×20÷100=16</td><td>16 гостей</td></tr>
+      <tr><td>г) Скільки % НЕ замовили піцу?</td><td>64÷80×100. Перевірка: 20%+80%=100%✓</td><td>80%</td></tr>
+    </table>
+  </div>
+
+  <!-- Завдання 4.7 Бонус -->
+  <div class="card">
+    <div class="task-num">★★★ Завдання 4.7</div>
+    <div class="task-title">Бонус Софії — мікс всього модуля</div>
+    <table class="data-table red">
+      <tr><th>Питання</th><th>Формула</th></tr>
+      <tr><td>Скільки? (🟡 W)</td><td>W = G × p ÷ 100</td></tr>
+      <tr><td>Скільки відсотків? (🔴 p%)</td><td>p = W ÷ G × 100</td></tr>
+      <tr><td>Скільки всього? (🔵 G)</td><td>G = W × 100 ÷ p ← Модуль 3!</td></tr>
+    </table>
+    <p style="font-size:14px;margin:12px 0 8px;font-weight:600;">Три задачі з одними числами:</p>
+    <table class="data-table">
+      <tr><th>Задача</th><th>Шукаємо</th><th>Відповідь</th></tr>
+      <tr><td>120 яблук, 25% червоні. Скільки?</td><td>🟡 W</td><td>30</td></tr>
+      <tr><td>120 яблук, 30 червоних. Скільки %?</td><td>🔴 p%</td><td>25%</td></tr>
+      <tr><td>30 червоних = 25%. Скільки всього?</td><td>🔵 G</td><td>120</td></tr>
+    </table>
+    <div class="dialog" style="margin-top:10px;"><div class="avatar tim">Т</div><div class="bubble tim">Три задачі — три різних питання — одні й ті самі числа!</div></div>
+    <div class="dialog"><div class="avatar sofia">С</div><div class="bubble sofia">Формули — це одна родина. Вивчиш одну — зрозумієш всі три.</div></div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ── UTILS ──
+const dayDone=[false,false,false,false];
+const taskDone={};
+
+function updateProgress(){
+  const done=dayDone.filter(Boolean).length;
+  const pct=done/4*100;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressPct').textContent=Math.round(pct)+'%';
+}
+
+function checkDayComplete(day){
+  const req={0:['t11','t12','t13','t14'],1:['t21','t22','t23','t24'],2:['t31','t32','t33'],3:['t41','t42','t43','t44','t45']};
+  if(req[day]&&req[day].every(t=>taskDone[t])&&!dayDone[day]){
+    dayDone[day]=true;updateProgress();
+    document.getElementById('tab'+(day+1)).classList.add('done');
+  }
+}
+
+function switchDay(n){
+  document.querySelectorAll('.day-content').forEach(d=>d.classList.remove('active'));
+  document.querySelectorAll('.day-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('day'+n).classList.add('active');
+  document.getElementById('tab'+n).classList.add('active');
+  document.getElementById('progressText').textContent='День '+n+' з 4';
+}
+
+function showAnswer(id,html,ok){
+  const el=document.getElementById(id);
+  el.innerHTML=html;el.className='answer-box visible';
+  el.style.background=ok?'var(--green-l)':'var(--red-l)';
+  el.style.borderColor=ok?'#86EFAC':'#FCA5A5';
+  el.style.color=ok?'#166534':'#991B1B';
+}
+
+function inp(id,w=60,ph='?'){return `<input type="number" id="${id}" class="fill-input" style="width:${w}px;" placeholder="${ph}">`;}
+function inpT(id,w=60,ph='?'){return `<input type="text" id="${id}" class="fill-input" style="width:${w}px;" placeholder="${ph}">`;}
+function val(id){const el=document.getElementById(id);return el?parseFloat(el.value):null;}
+function sval(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+
+// ══ ДЕНЬ 1 ══
+
+function initTask11(){
+  const items=[
+    {sit:'а) 100 учнів — 20%',g:100,p:20,w:20},
+    {sit:'б) 100 товарів — 30% зі знижкою',g:100,p:30,w:30},
+    {sit:'в) 100 гостей — 25% замовили піцу',g:100,p:25,w:25},
+    {sit:'г) 100 книг — 10% нові',g:100,p:10,w:10},
+  ];
+  const wrap=document.getElementById('task11');wrap.innerHTML='';
+  items.forEach((it,i)=>{
+    wrap.innerHTML+=`<div class="task-item">
+      <div style="font-size:13px;font-weight:600;margin-bottom:6px;">${it.sit}</div>
+      <div class="task-row">
+        <span style="font-size:13px;">Крок 1: 1% = ${it.g}÷100 =</span>
+        ${inp('t11a'+i,50,it.g/100)}
+        <span style="font-size:13px;margin-left:8px;">Крок 2: W =</span>
+        ${inp('t11b'+i,50,'')}×${it.p} =
+        ${inp('t11c'+i,60,it.w)}
+      </div>
+    </div>`;
+  });
+}
+function check11(){
+  const answers=[{a:1,c:20},{a:1,c:30},{a:1,c:25},{a:1,c:10}];
+  let ok=true,msgs=[];
+  answers.forEach((ans,i)=>{
+    const av=val('t11a'+i),cv=val('t11c'+i);
+    if(av===null||cv===null){msgs.push(`⬜ ${String.fromCharCode(1072+i)}): не заповнено`);ok=false;return;}
+    if(av===ans.a&&cv===ans.c)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
+    else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): попробуй ще раз`);ok=false;}
+  });
+  showAnswer('ans11',msgs.join('<br>'),ok);
+  if(ok){taskDone['t11']=true;checkDayComplete(0);}
+}
+function reset11(){for(let i=0;i<4;i++)['t11a','t11b','t11c'].forEach(p=>{const el=document.getElementById(p+i);if(el)el.value='';});document.getElementById('ans11').className='answer-box';}
+
+function initTask12(){
+  const items=[
+    {sit:'а) 200 учнів — 10% займаються спортом',g:200,p:10,a:2,w:20},
+    {sit:'б) 400 магазинів — 25% відкриті в неділю',g:400,p:25,a:4,w:100},
+    {sit:'в) 300 ящиків — 20% з фруктами',g:300,p:20,a:3,w:60},
+    {sit:'г) 200 дерев — 50% дуби',g:200,p:50,a:2,w:100},
+  ];
+  const wrap=document.getElementById('task12');wrap.innerHTML='';
+  items.forEach((it,i)=>{
+    wrap.innerHTML+=`<div class="task-item">
+      <div style="font-size:13px;font-weight:600;margin-bottom:6px;">${it.sit}</div>
+      <div class="task-row">
+        <span style="font-size:13px;">1% від ${it.g} = ${it.g}÷100 =</span>
+        ${inp('t12a'+i,50,'')}
+        <span style="font-size:13px;margin-left:6px;">${it.p}% =</span>
+        ${inp('t12b'+i,50,'')}×${it.p} =
+        ${inp('t12c'+i,60,'')}
+      </div>
+    </div>`;
+  });
+}
+function check12(){
+  const answers=[{a:2,c:20},{a:4,c:100},{a:3,c:60},{a:2,c:100}];
+  let ok=true,msgs=[];
+  answers.forEach((ans,i)=>{
+    const av=val('t12a'+i),cv=val('t12c'+i);
+    if(av===null||cv===null){msgs.push(`⬜ ${String.fromCharCode(1072+i)}): не заповнено`);ok=false;return;}
+    if(av===ans.a&&cv===ans.c)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
+    else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): попробуй ще раз`);ok=false;}
+  });
+  showAnswer('ans12',msgs.join('<br>'),ok);
+  if(ok){taskDone['t12']=true;checkDayComplete(0);}
+}
+function reset12(){for(let i=0;i<4;i++)['t12a','t12b','t12c'].forEach(p=>{const el=document.getElementById(p+i);if(el)el.value='';});document.getElementById('ans12').className='answer-box';}
+
+function initTask13(){
+  const rows=[
+    {g:100,p:30,a:1,w:30},{g:200,p:20,a:2,w:40},{g:400,p:10,a:4,w:40},
+    {g:300,p:30,a:3,w:90},{g:100,p:50,a:1,w:50},{g:200,p:25,a:2,w:50},
+  ];
+  const wrap=document.getElementById('task13');
+  let html=`<table class="data-table"><tr><th>🔵 G</th><th>🔴 p%</th><th>1% від G</th><th>🟡 W</th></tr>`;
+  rows.forEach((r,i)=>{
+    html+=`<tr><td>${r.g}</td><td>${r.p}%</td><td>${inp('t13a'+i,50,'')}</td><td>${inp('t13w'+i,60,'')}</td></tr>`;
+  });
+  html+='</table>';
+  wrap.innerHTML=html;
+}
+function check13(){
+  const rows=[{a:1,w:30},{a:2,w:40},{a:4,w:40},{a:3,w:90},{a:1,w:50},{a:2,w:50}];
+  let ok=true,msgs=[];
+  rows.forEach((r,i)=>{
+    const av=val('t13a'+i),wv=val('t13w'+i);
+    if(av===r.a&&wv===r.w)msgs.push(`✅ Рядок ${i+1}: вірно!`);
+    else{msgs.push(`❌ Рядок ${i+1}: попробуй ще раз`);ok=false;}
+  });
+  showAnswer('ans13',msgs.join('<br>'),ok);
+  if(ok){taskDone['t13']=true;checkDayComplete(0);}
+}
+function reset13(){for(let i=0;i<6;i++)['t13a','t13w'].forEach(p=>{const el=document.getElementById(p+i);if(el)el.value='';});document.getElementById('ans13').className='answer-box';}
+
+function initTask14(){
+  const items=[
+    {text:'а) 20% від 100 = 100÷100×20 = 20',ok:true},
+    {text:'б) 10% від 200 = 200÷100×10 = 20',ok:true},
+    {text:'в) 25% від 400 = 400÷100×25 = 10',ok:false},
+    {text:'г) 50% від 300 = 300÷100×50 = 150',ok:true},
+    {text:'д) 30% від 200 = 200÷10×30 = 600',ok:false},
+  ];
+  const wrap=document.getElementById('task14');wrap.innerHTML='';
+  items.forEach((it,i)=>{
+    wrap.innerHTML+=`<div class="task-item" style="margin-bottom:8px;">
+      <div style="font-size:13px;margin-bottom:6px;">${it.text}</div>
+      <div style="display:flex;gap:8px;">
+        <button class="pct-btn" id="t14_${i}_ok" onclick="selT14(${i},'ok')">✓ Вірно</button>
+        <button class="pct-btn" id="t14_${i}_err" onclick="selT14(${i},'err')">✗ Помилка</button>
+      </div>
+    </div>`;
+  });
+}
+const t14sel={};
+function selT14(i,v){t14sel[i]=v;['ok','err'].forEach(o=>{const el=document.getElementById('t14_'+i+'_'+o);if(el){el.className='pct-btn'+(o===v?' selected':'');if(o===v){el.setAttribute('style','background:#2563EB!important;border-color:#2563EB!important;color:white!important;');}else el.removeAttribute('style');}});}
+function check14(){
+  const correct=[true,true,false,true,false];
+  let ok=true,msgs=[];
+  correct.forEach((c,i)=>{
+    const s=t14sel[i];
+    const isOk=(s==='ok')===c;
+    if(isOk)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
+    else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): ${['','','правильно 100 (4×25)','','правильно 60 (÷100, не ÷10)'][i]}`);ok=false;}
+  });
+  showAnswer('ans14',msgs.join('<br>'),ok);
+  if(ok){taskDone['t14']=true;checkDayComplete(0);}
+}
+
+// ══ ДЕНЬ 2 ══
+
+function initTask21(){
+  const items=[
+    {sit:'а) 80 кафе — 30% відкриті вночі',g:80,p:30,a:8,m:3,w:24},
+    {sit:'б) 120 товарів — 20% зі знижкою',g:120,p:20,a:12,m:2,w:24},
+    {sit:'в) 60 машин — 50% сині',g:60,p:50,a:6,m:5,w:30},
+    {sit:'г) 200 книг — 40% про природу',g:200,p:40,a:20,m:4,w:80},
+  ];
+  const wrap=document.getElementById('task21');wrap.innerHTML='';
+  items.forEach((it,i)=>{
+    wrap.innerHTML+=`<div class="task-item">
+      <div style="font-size:13px;font-weight:600;margin-bottom:6px;">${it.sit}</div>
+      <div class="task-row">
+        <span style="font-size:13px;">10% від ${it.g} = ${it.g}÷10 =</span>
+        ${inp('t21a'+i,50,'')}
+        <span style="font-size:13px;margin-left:6px;">${it.p}% =</span>
+        ${inp('t21b'+i,50,'')}×${it.m} =
+        ${inp('t21c'+i,60,'')}
+      </div>
+    </div>`;
+  });
+}
+function check21(){
+  const answers=[{a:8,c:24},{a:12,c:24},{a:6,c:30},{a:20,c:80}];
+  let ok=true,msgs=[];
+  answers.forEach((ans,i)=>{
+    const av=val('t21a'+i),cv=val('t21c'+i);
+    if(av===ans.a&&cv===ans.c)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
+    else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): попробуй ще раз`);ok=false;}
+  });
+  showAnswer('ans21',msgs.join('<br>'),ok);
+  if(ok){taskDone['t21']=true;checkDayComplete(1);}
+}
+function reset21(){for(let i=0;i<4;i++)['t21a','t21b','t21c'].forEach(p=>{const el=document.getElementById(p+i);if(el)el.value='';});document.getElementById('ans21').className='answer-box';}
+
+function initTask22(){
+  const rows=[
+    {g:80, r10:8, r20:16, r50:40, r90:72, r5:4},
+    {g:120,r10:12,r20:24, r50:60, r90:108,r5:6},
+    {g:60, r10:6, r20:12, r50:30, r90:54, r5:3},
+    {g:200,r10:20,r20:40, r50:100,r90:180,r5:10},
+  ];
+  const wrap=document.getElementById('task22');
+  let html=`<table class="data-table green"><tr><th>🔵 G</th><th>10%</th><th>20%</th><th>50%</th><th>90%</th><th>5%</th></tr>`;
+  rows.forEach((r,i)=>{
+    html+=`<tr><td>${r.g}</td><td>${inp('t22a'+i,48,'')}</td><td>${inp('t22b'+i,48,'')}</td><td>${inp('t22c'+i,48,'')}</td><td>${inp('t22d'+i,48,'')}</td><td>${inp('t22e'+i,48,'')}</td></tr>`;
+  });
+  html+='</table>';
+  wrap.innerHTML=html;
+}
+function check22(){
+  const rows=[{a:8,b:16,c:40,d:72,e:4},{a:12,b:24,c:60,d:108,e:6},{a:6,b:12,c:30,d:54,e:3},{a:20,b:40,c:100,d:180,e:10}];
+  let ok=true,msgs=[];
+  rows.forEach((r,i)=>{
+    const all=['a','b','c','d','e'].every(k=>val('t22'+k+i)===r[k]);
+    if(all)msgs.push(`✅ Рядок ${i+1}: вірно!`);
+    else{msgs.push(`❌ Рядок ${i+1}: попробуй ще раз`);ok=false;}
+  });
+  showAnswer('ans22',msgs.join('<br>'),ok);
+  if(ok){taskDone['t22']=true;checkDayComplete(1);}
+}
+function reset22(){for(let i=0;i<4;i++)['t22a','t22b','t22c','t22d','t22e'].forEach(p=>{const el=document.getElementById(p+i);if(el)el.value='';});document.getElementById('ans22').className='answer-box';}
+
+function initTask23(){
+  const items=[
+    {q:'а) 30% від 60 — який спосіб зручніший?',opts:['Через 1%','Через 10%','Однаково'],correct:'Через 10%'},
+    {q:'б) 20% від 200 — який найшвидший?',opts:['Через 1%','Через 10%','÷5'],correct:'÷5'},
+    {q:'в) 5% від 120 — який зручніший?',opts:['Через 1%','Через 10%','Однаково'],correct:'Через 10%'},
+  ];
+  const wrap=document.getElementById('task23');wrap.innerHTML='';
+  items.forEach((it,i)=>{
+    wrap.innerHTML+=`<div class="task-item" style="margin-bottom:8px;">
+      <div style="font-size:13px;font-weight:600;margin-bottom:6px;">${it.q}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">${it.opts.map(o=>`<button class="pct-btn" id="t23_${i}_${o.replace(/[^a-zA-Z0-9]/g,'')}" onclick="selT23(${i},'${o}')">${o}</button>`).join('')}</div>
+    </div>`;
+  });
+}
+const t23sel={};
+function selT23(i,v){
+  t23sel[i]=v;
+  const items=[{opts:['Через 1%','Через 10%','Однаково']},{opts:['Через 1%','Через 10%','÷5']},{opts:['Через 1%','Через 10%','Однаково']}];
+  items[i].opts.forEach(o=>{const id='t23_'+i+'_'+o.replace(/[^a-zA-Z0-9]/g,'');const el=document.getElementById(id);if(el){el.className='pct-btn'+(o===v?' selected':'');if(o===v)el.setAttribute('style','background:#2563EB!important;border-color:#2563EB!important;color:white!important;');else el.removeAttribute('style');}});
+}
+function check23(){
+  const correct=['Через 10%','÷5','Через 10%'];
+  let ok=true,msgs=[];
+  correct.forEach((c,i)=>{
+    if(t23sel[i]===c)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
+    else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): найзручніший — ${c}`);ok=false;}
+  });
+  showAnswer('ans23',msgs.join('<br>'),ok);
+  if(ok){taskDone['t23']=true;checkDayComplete(1);}
+}
+
+function initTask24(){
+  const items=[
+    {text:'а) 30% від 80 = 80÷10×3 = 24',ok:true},
+    {text:'б) 20% від 120 = 120÷10×20 = 240',ok:false},
+    {text:'в) 50% від 60 = 60÷10×5 = 30',ok:true},
+    {text:'г) 90% від 80 = 80−8 = 72',ok:true},
+    {text:'д) 5% від 200 = 200÷10÷2 = 10',ok:true},
+  ];
+  const wrap=document.getElementById('task24');wrap.innerHTML='';
+  items.forEach((it,i)=>{
+    wrap.innerHTML+=`<div class="task-item" style="margin-bottom:8px;">
+      <div style="font-size:13px;margin-bottom:6px;">${it.text}</div>
+      <div style="display:flex;gap:8px;">
+        <button class="pct-btn" id="t24_${i}_ok" onclick="selT24(${i},'ok')">✓ Вірно</button>
+        <button class="pct-btn" id="t24_${i}_err" onclick="selT24(${i},'err')">✗ Помилка</button>
+      </div>
+    </div>`;
+  });
+}
+const t24sel={};
+function selT24(i,v){t24sel[i]=v;['ok','err'].forEach(o=>{const el=document.getElementById('t24_'+i+'_'+o);if(el){el.className='pct-btn'+(o===v?' selected':'');if(o===v)el.setAttribute('style','background:#2563EB!important;border-color:#2563EB!important;color:white!important;');else el.removeAttribute('style');}});}
+function check24(){
+  const correct=[true,false,true,true,true];
+  let ok=true,msgs=[];
+  correct.forEach((c,i)=>{
+    const isOk=(t24sel[i]==='ok')===c;
+    if(isOk)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
+    else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): ${i===1?'×2 не ×20 → 12×2=24':''}`);ok=false;}
+  });
+  showAnswer('ans24',msgs.join('<br>'),ok);
+  if(ok){taskDone['t24']=true;checkDayComplete(1);}
+}
+
+// ══ ДЕНЬ 3 ══
+
+function initTask31(){
+  const items=[
+    {sit:'а) 200 учнів, 10% відмінники',g:200,p:10,w:20},
+    {sit:'б) 400 ящиків, 25% з овочами',g:400,p:25,w:100},
+    {sit:'в) 120 магазинів, 50% у вихідні',g:120,p:50,w:60},
+    {sit:'г) 300 тварин, 20% кози',g:300,p:20,w:60},
+  ];
+  const wrap=document.getElementById('task31');wrap.innerHTML='';
+  items.forEach((it,i)=>{
+    wrap.innerHTML+=`<div class="task-item">
+      <div style="font-size:13px;font-weight:600;margin-bottom:6px;">${it.sit}</div>
+      <div class="task-row">
+        <span style="font-size:13px;">W = ${it.g} ×</span>
+        ${inp('t31p'+i,50,it.p)}
+        <span style="font-size:13px;">÷ 100 =</span>
+        ${inp('t31w'+i,60,'')}
+      </div>
+    </div>`;
+  });
+}
+function check31(){
+  const answers=[20,100,60,60];
+  let ok=true,msgs=[];
+  answers.forEach((w,i)=>{
+    const wv=val('t31w'+i);
+    if(wv===w)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
+    else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): попробуй ще раз`);ok=false;}
+  });
+  showAnswer('ans31',msgs.join('<br>'),ok);
+  if(ok){taskDone['t31']=true;checkDayComplete(2);}
+}
+function reset31(){for(let i=0;i<4;i++)['t31p','t31w'].forEach(p=>{const el=document.getElementById(p+i);if(el)el.value='';});document.getElementById('ans31').className='answer-box';}
+
+function initTask32(){
+  const rows=[
+    {g:200,p:10,w:20},{g:120,p:25,w:30},{g:400,p:50,w:200},{g:80,p:20,w:16},
+    {g:300,p:10,w:30},{g:200,p:15,w:30},{g:120,p:5,w:6},{g:400,p:30,w:120},
+  ];
+  const wrap=document.getElementById('task32');
+  let html=`<table class="data-table purple"><tr><th>🔵 G</th><th>🔴 p%</th><th>🟡 W</th></tr>`;
+  rows.forEach((r,i)=>{
+    html+=`<tr><td>${r.g}</td><td>${r.p}%</td><td>${inp('t32w'+i,70,'')}</td></tr>`;
+  });
+  html+='</table>';
+  wrap.innerHTML=html;
+}
+function check32(){
+  const answers=[20,30,200,16,30,30,6,120];
+  let ok=true,msgs=[];
+  answers.forEach((w,i)=>{
+    const wv=val('t32w'+i);
+    if(wv===w)msgs.push(`✅ Рядок ${i+1}: вірно!`);
+    else{msgs.push(`❌ Рядок ${i+1}: попробуй ще раз`);ok=false;}
+  });
+  showAnswer('ans32',msgs.join('<br>'),ok);
+  if(ok){taskDone['t32']=true;checkDayComplete(2);}
+}
+function reset32(){for(let i=0;i<8;i++){const el=document.getElementById('t32w'+i);if(el)el.value='';}document.getElementById('ans32').className='answer-box';}
+
+function initTask33(){
+  const items=[
+    {text:'а) W = 200×10÷100 = 20',ok:true},
+    {text:'б) W = 120×25÷100 = 300',ok:false},
+    {text:'в) W = 400×50÷100 = 200',ok:true},
+    {text:'г) W = 80×20÷100 = 160',ok:false},
+    {text:'д) W = 300×10÷100 = 3000',ok:false},
+  ];
+  const wrap=document.getElementById('task33');wrap.innerHTML='';
+  items.forEach((it,i)=>{
+    wrap.innerHTML+=`<div class="task-item" style="margin-bottom:8px;">
+      <div style="font-size:13px;margin-bottom:6px;">${it.text}</div>
+      <div style="display:flex;gap:8px;">
+        <button class="pct-btn" id="t33_${i}_ok" onclick="selT33(${i},'ok')">✓ Вірно</button>
+        <button class="pct-btn" id="t33_${i}_err" onclick="selT33(${i},'err')">✗ Помилка</button>
+      </div>
+    </div>`;
+  });
+}
+const t33sel={};
+function selT33(i,v){t33sel[i]=v;['ok','err'].forEach(o=>{const el=document.getElementById('t33_'+i+'_'+o);if(el){el.className='pct-btn'+(o===v?' selected':'');if(o===v)el.setAttribute('style','background:#2563EB!important;border-color:#2563EB!important;color:white!important;');else el.removeAttribute('style');}});}
+function check33(){
+  const correct=[true,false,true,false,false];
+  let ok=true,msgs=[];
+  correct.forEach((c,i)=>{
+    const isOk=(t33sel[i]==='ok')===c;
+    if(isOk)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
+    else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): попробуй ще раз`);ok=false;}
+  });
+  showAnswer('ans33',msgs.join('<br>'),ok);
+  if(ok){taskDone['t33']=true;checkDayComplete(2);}
+}
+
+// ══ ДЕНЬ 4 ══
+
+function initTask41(){
+  const items=[
+    {sit:'а) 100 учнів, 20 займаються спортом. Скільки %?',w:20,g:100,p:20},
+    {sit:'б) 200 книг, 40 детективи. Скільки %?',w:40,g:200,p:20},
+    {sit:'в) 400 товарів, 100 зі знижкою. Скільки %?',w:100,g:400,p:25},
+    {sit:'г) 80 машин, 20 червоні. Скільки %?',w:20,g:80,p:25},
+  ];
+  const wrap=document.getElementById('task41');wrap.innerHTML='';
+  items.forEach((it,i)=>{
+    wrap.innerHTML+=`<div class="task-item">
+      <div style="font-size:13px;font-weight:600;margin-bottom:6px;">${it.sit}</div>
+      <div class="task-row">
+        <span style="font-size:13px;">p = ${it.w} ÷ ${it.g} × 100 =</span>
+        ${inp('t41p'+i,60,'')}
+        <span style="font-size:13px;">%</span>
+      </div>
+    </div>`;
+  });
+}
+function check41(){
+  const answers=[20,20,25,25];
+  let ok=true,msgs=[];
+  answers.forEach((p,i)=>{
+    const pv=val('t41p'+i);
+    if(pv===p)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
+    else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): попробуй ще раз`);ok=false;}
+  });
+  showAnswer('ans41',msgs.join('<br>'),ok);
+  if(ok){taskDone['t41']=true;checkDayComplete(3);}
+}
+function reset41(){for(let i=0;i<4;i++){const el=document.getElementById('t41p'+i);if(el)el.value='';}document.getElementById('ans41').className='answer-box';}
+
+function initTask42(){
+  const rows=[
+    {g:100,w:30,p:30},{g:200,w:50,p:25},{g:400,w:100,p:25},{g:80,w:40,p:50},
+    {g:120,w:60,p:50},{g:300,w:30,p:10},{g:200,w:10,p:5},{g:80,w:8,p:10},
+  ];
+  const wrap=document.getElementById('task42');
+  let html=`<table class="data-table red"><tr><th>🔵 G</th><th>🟡 W</th><th>🔴 p%</th></tr>`;
+  rows.forEach((r,i)=>{
+    html+=`<tr><td>${r.g}</td><td>${r.w}</td><td>${inp('t42p'+i,60,'')} %</td></tr>`;
+  });
+  html+='</table>';
+  wrap.innerHTML=html;
+}
+function check42(){
+  const answers=[30,25,25,50,50,10,5,10];
+  let ok=true,msgs=[];
+  answers.forEach((p,i)=>{
+    const pv=val('t42p'+i);
+    if(pv===p)msgs.push(`✅ Рядок ${i+1}: вірно!`);
+    else{msgs.push(`❌ Рядок ${i+1}: попробуй ще раз`);ok=false;}
+  });
+  showAnswer('ans42',msgs.join('<br>'),ok);
+  if(ok){taskDone['t42']=true;checkDayComplete(3);}
+}
+function reset42(){for(let i=0;i<8;i++){const el=document.getElementById('t42p'+i);if(el)el.value='';}document.getElementById('ans42').className='answer-box';}
+
+function initTask43(){
+  const items=[
+    {q:'а) 40 учнів, 25% хворіють. Скільки учнів?',correct:'W',ans:'10'},
+    {q:'б) 30 учнів, 6 запізнились. Скільки відсотків?',correct:'p%',ans:'20%'},
+    {q:'в) 200 яблук, 10% гнилі. Скільки гнилих?',correct:'W',ans:'20'},
+    {q:'г) 80 учасників, 20 перемогли. Скільки %?',correct:'p%',ans:'25%'},
+  ];
+  const wrap=document.getElementById('task43');wrap.innerHTML='';
+  items.forEach((it,i)=>{
+    wrap.innerHTML+=`<div class="task-item" style="margin-bottom:8px;">
+      <div style="font-size:13px;font-weight:600;margin-bottom:6px;">${it.q}</div>
+      <div style="display:flex;gap:8px;">
+        <button class="pct-btn" id="t43_${i}_W" onclick="selT43(${i},'W')">🟡 W (скільки?)</button>
+        <button class="pct-btn" id="t43_${i}_p" onclick="selT43(${i},'p%')">🔴 p% (скільки %?)</button>
+      </div>
+    </div>`;
+  });
+}
+const t43sel={};
+function selT43(i,v){t43sel[i]=v;['W','p%'].forEach(o=>{const el=document.getElementById('t43_'+i+'_'+o);if(el){el.className='pct-btn'+(o===v?' selected':'');if(o===v)el.setAttribute('style','background:#2563EB!important;border-color:#2563EB!important;color:white!important;');else el.removeAttribute('style');}});}
+function check43(){
+  const correct=['W','p%','W','p%'];
+  const answers=['10','20%','20','25%'];
+  let ok=true,msgs=[];
+  correct.forEach((c,i)=>{
+    if(t43sel[i]===c)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно! Відповідь: ${answers[i]}`);
+    else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): шукаємо ${c}`);ok=false;}
+  });
+  showAnswer('ans43',msgs.join('<br>'),ok);
+  if(ok){taskDone['t43']=true;checkDayComplete(3);}
+}
+
+function initTask44(){
+  const rows=[
+    {g:200,w:null,p:10,qW:true,ans:20},
+    {g:400,w:100,p:null,qW:false,ans:25},
+    {g:120,w:null,p:25,qW:true,ans:30},
+    {g:80,w:20,p:null,qW:false,ans:25},
+    {g:300,w:null,p:20,qW:true,ans:60},
+    {g:200,w:50,p:null,qW:false,ans:25},
+    {g:400,w:null,p:5,qW:true,ans:20},
+    {g:120,w:12,p:null,qW:false,ans:10},
+  ];
+  const wrap=document.getElementById('task44');
+  let html=`<table class="data-table red"><tr><th>🔵 G</th><th>🟡 W</th><th>🔴 p%</th><th>Відповідь</th></tr>`;
+  rows.forEach((r,i)=>{
+    const wCell=r.w===null?inp('t44v'+i,55,''):r.w;
+    const pCell=r.p===null?`${inp('t44v'+i,48,'')} %`:r.p+'%';
+    html+=`<tr><td>${r.g}</td><td>${wCell}</td><td>${pCell}</td><td>${inp('t44a'+i,60,'')}</td></tr>`;
+  });
+  html+='</table>';
+  wrap.innerHTML=html;
+}
+function check44(){
+  const answers=[20,25,30,25,60,25,20,10];
+  let ok=true,msgs=[];
+  answers.forEach((a,i)=>{
+    const av=val('t44a'+i);
+    if(av===a)msgs.push(`✅ Рядок ${i+1}: вірно!`);
+    else{msgs.push(`❌ Рядок ${i+1}: попробуй ще раз`);ok=false;}
+  });
+  showAnswer('ans44',msgs.join('<br>'),ok);
+  if(ok){taskDone['t44']=true;checkDayComplete(3);}
+}
+function reset44(){for(let i=0;i<8;i++)['t44v','t44a'].forEach(p=>{const el=document.getElementById(p+i);if(el)el.value='';}); document.getElementById('ans44').className='answer-box';}
+
+function initTask45(){
+  const items=[
+    {text:'а) 10 з 40 = 10÷40×100 = 25%',ok:true},
+    {text:'б) 30 з 200 = 200÷30×100 = 666%',ok:false},
+    {text:'в) 50 з 200 = 50÷200×100 = 25%',ok:true},
+    {text:'г) 20 з 80 = 20÷80×100 = 25%',ok:true},
+    {text:'д) 60 з 120 = 60×120÷100 = 72',ok:false},
+  ];
+  const wrap=document.getElementById('task45');wrap.innerHTML='';
+  items.forEach((it,i)=>{
+    wrap.innerHTML+=`<div class="task-item" style="margin-bottom:8px;">
+      <div style="font-size:13px;margin-bottom:6px;">${it.text}</div>
+      <div style="display:flex;gap:8px;">
+        <button class="pct-btn" id="t45_${i}_ok" onclick="selT45(${i},'ok')">✓ Вірно</button>
+        <button class="pct-btn" id="t45_${i}_err" onclick="selT45(${i},'err')">✗ Помилка</button>
+      </div>
+    </div>`;
+  });
+}
+const t45sel={};
+function selT45(i,v){t45sel[i]=v;['ok','err'].forEach(o=>{const el=document.getElementById('t45_'+i+'_'+o);if(el){el.className='pct-btn'+(o===v?' selected':'');if(o===v)el.setAttribute('style','background:#2563EB!important;border-color:#2563EB!important;color:white!important;');else el.removeAttribute('style');}});}
+function check45(){
+  const correct=[true,false,true,true,false];
+  let ok=true,msgs=[];
+  correct.forEach((c,i)=>{
+    const isOk=(t45sel[i]==='ok')===c;
+    if(isOk)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
+    else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): попробуй ще раз`);ok=false;}
+  });
+  showAnswer('ans45',msgs.join('<br>'),ok);
+  if(ok){taskDone['t45']=true;checkDayComplete(3);}
+}
+
+// ── INIT ──
+window.onload=function(){
+  initTask11();initTask12();initTask13();initTask14();
+  initTask21();initTask22();initTask23();initTask24();
+  initTask31();initTask32();initTask33();
+  initTask41();initTask42();initTask43();initTask44();initTask45();
+};
+</script>
+</body>
+</html>
