@@ -70,7 +70,7 @@ h1,h2,.badge,.task-title,.day-title{font-family:'Nunito',sans-serif;}
 .bubble.tim{background:var(--blue-l);border-radius:var(--radius-sm) 0 var(--radius-sm) var(--radius-sm);}
 .bubble.sofia{background:var(--red-l);}
 
-.code-block{background:#1E293B;color:#38BDF8;border-radius:var(--radius-sm);padding:14px 16px;font-family:'Courier New',monospace;font-size:14px;line-height:1.8;margin:10px 0;}
+.code-block{background:#ECFDF5;color:#065F46;border-radius:var(--radius-sm);padding:14px 16px;font-family:'Courier New',monospace;font-size:14px;line-height:1.8;margin:10px 0;white-space:pre-line;}
 
 .data-table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0;}
 .data-table th{background:var(--blue);color:white;padding:8px 10px;text-align:left;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;}
@@ -115,6 +115,12 @@ h1,h2,.badge,.task-title,.day-title{font-family:'Nunito',sans-serif;}
 /* Input fields */
 .fill-input{width:60px;padding:6px;border:2px solid #CBD5E1;border-radius:6px;font-size:15px;text-align:center;font-family:'Nunito',sans-serif;font-weight:700;}
 .fill-input:focus{outline:none;border-color:var(--blue);}
+
+.fill-input.yellow{background:#FFFADC;border-color:#c8b840;color:#5a4200;}
+.fill-input.yellow:focus{border-color:#BA7517;box-shadow:0 0 0 3px rgba(186,117,23,0.15);}
+.fill-input::-webkit-inner-spin-button,.fill-input::-webkit-outer-spin-button{-webkit-appearance:none;}
+.fill-input{-moz-appearance:textfield;}
+
 
 /* Buttons */
 .btn-check{background:var(--blue);color:white;border:none;border-radius:var(--radius-sm);padding:10px 20px;font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;cursor:pointer;margin-top:12px;transition:all 0.2s;}
@@ -206,31 +212,9 @@ h1,h2,.badge,.task-title,.day-title{font-family:'Nunito',sans-serif;}
     <div class="info-title">📌 Метод через 1%</div>
     <div class="code-block">Крок 1: знайди 1%  →  G ÷ 100
 Крок 2: знайди p%  →  1% × p</div>
-    <div style="font-size:14px;margin-top:8px;">Приклад: у класі <strong>100</strong> учнів. Скільки це — <strong>20%</strong>?</div>
+    <div style="font-size:14px;margin-top:8px;">Приклад: у паралелі <strong>100</strong> учнів. Скільки це — <strong>20%</strong>?</div>
     <div class="code-block">Крок 1: 1% від 100 = 100 ÷ 100 = 1 учень
 Крок 2: 20% = 1 × 20 = 20 учнів</div>
-  </div>
-
-  <div class="card-info amber">
-    <div class="info-title">📌 Skonto — знижка за швидку оплату</div>
-    <div class="info-body">Рахунок <strong>200€</strong>. Постачальник: «Заплатиш за 10 днів — знижка 2%.»</div>
-    <div class="code-block">Крок 1: 1% від 200 = 2€
-Крок 2: 2% = 2 × 2 = 4€ — знижка
-Заплатиш: 200 − 4 = 196€</div>
-  </div>
-
-  <!-- Завдання 1.1 -->
-  <div class="card">
-    <div class="task-num">★ Завдання 1.1</div>
-    <div class="task-title">Перші кроки через 1%</div>
-    <div class="dialog"><div class="avatar tim">Т</div><div class="bubble tim">Якщо ціле 100 — то 1% завжди дорівнює 1!</div></div>
-    <p style="font-size:14px;margin:10px 0 6px;">Заповни обидва кроки:</p>
-    <div id="task11"></div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="check11()">Перевірити ✓</button>
-      <button class="btn-clear" onclick="reset11()">Скинути</button>
-    </div>
-    <div class="answer-box" id="ans11"></div>
   </div>
 
   <!-- Завдання 1.2 -->
@@ -273,13 +257,43 @@ h1,h2,.badge,.task-title,.day-title{font-family:'Nunito',sans-serif;}
   <div class="card">
     <div class="task-num">★★ Завдання 1.5</div>
     <div class="task-title">Реальні задачі</div>
-    <table class="data-table">
-      <tr><th>Задача</th><th>Розв'язання</th><th>Відповідь</th></tr>
-      <tr><td>а) Куртка 200€, знижка 20%</td><td>1%=2€, 20%=40€</td><td>40€ знижка, 160€</td></tr>
-      <tr><td>б) 100 учнів, 30% — музика</td><td>1%=1, 30%=30</td><td>30 учнів</td></tr>
-      <tr><td>в) Skonto: 300€, 2% за 10 днів</td><td>1%=3€, 2%=6€</td><td>6€ економія, 294€</td></tr>
-      <tr><td>г) Телефон 400 mAh, 25% заряду</td><td>1%=4, 25%=100</td><td>100 mAh</td></tr>
-    </table>
+    <div class="dialog"><div class="avatar tim">Т</div><div class="bubble tim">Розв'яжи в зошиті — потім впиши відповідь!</div></div>
+
+    <div class="task-item" style="margin-top:10px;">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">а) Куртка коштує 200€. Знижка 20%. Скільки зекономиш?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Знижка: <input type="text" class="fill-input" id="r15a_a" style="width:80px;" placeholder="?€">
+        &nbsp; Заплатиш: <input type="text" class="fill-input" id="r15a_b" style="width:80px;" placeholder="?€">
+      </div>
+    </div>
+
+    <div class="task-item">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">б) У школі 100 учнів. 30% займаються музикою. Скільки учнів?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Відповідь: <input type="text" class="fill-input" id="r15b_a" style="width:100px;" placeholder="? учнів">
+      </div>
+    </div>
+
+    <div class="task-item">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">в) Рахунок 300€. Skonto 2% якщо заплатиш за 10 днів. Скільки зекономиш?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Знижка: <input type="text" class="fill-input" id="r15c_a" style="width:80px;" placeholder="?€">
+        &nbsp; Заплатиш: <input type="text" class="fill-input" id="r15c_b" style="width:80px;" placeholder="?€">
+      </div>
+    </div>
+
+    <div class="task-item">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">г) Акумулятор телефону 400 mAh. Заряджено 25%. Скільки mAh?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Відповідь: <input type="text" class="fill-input" id="r15d_a" style="width:110px;" placeholder="? mAh">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check" onclick="check15()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset15()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans15"></div>
   </div>
 </div>
 
@@ -294,7 +308,7 @@ h1,h2,.badge,.task-title,.day-title{font-family:'Nunito',sans-serif;}
     <div class="info-title">📌 Метод через 10%</div>
     <div class="code-block">Крок 1: знайди 10%  →  G ÷ 10
 Крок 2: знайди p%   →  10% × (p ÷ 10)</div>
-    <div style="font-size:14px;margin-top:8px;">Приклад: у школі <strong>200</strong> учнів. Знайди <strong>30%</strong>.</div>
+    <div style="font-size:14px;margin-top:8px;">Приклад: у паралелі <strong>200</strong> учнів. Знайди <strong>30%</strong>.</div>
     <div class="code-block">Крок 1: 10% від 200 = 200 ÷ 10 = 20
 Крок 2: 30% = 20 × 3 = 60</div>
   </div>
@@ -341,17 +355,6 @@ h1,h2,.badge,.task-title,.day-title{font-family:'Nunito',sans-serif;}
     <div class="dialog" style="margin-top:10px;"><div class="avatar tim">Т</div><div class="bubble tim">90% від 60 — я зробив 60−6=54. Швидше ніж 6×9!</div></div>
   </div>
 
-  <!-- Завдання 2.3 -->
-  <div class="card">
-    <div class="task-num">★ Завдання 2.3</div>
-    <div class="task-title">Через 10% чи через 1%?</div>
-    <div id="task23"></div>
-    <div class="btn-row">
-      <button class="btn-check purple" onclick="check23()">Перевірити ✓</button>
-    </div>
-    <div class="answer-box" id="ans23"></div>
-  </div>
-
   <!-- Завдання 2.4 -->
   <div class="card">
     <div class="task-num">★★ Завдання 2.4</div>
@@ -367,13 +370,43 @@ h1,h2,.badge,.task-title,.day-title{font-family:'Nunito',sans-serif;}
   <div class="card">
     <div class="task-num">★★ Завдання 2.5</div>
     <div class="task-title">Реальні задачі</div>
-    <table class="data-table green">
-      <tr><th>Задача</th><th>Розв'язання</th><th>Відповідь</th></tr>
-      <tr><td>а) Велосипед 200€, знижка 30%</td><td>10%=20€, 30%=60€</td><td>60€ знижка, 140€</td></tr>
-      <tr><td>б) 80 гравців, 20% в основну</td><td>10%=8, 20%=16. Або 80÷5</td><td>16 гравців</td></tr>
-      <tr><td>в) Skonto: 120€, 5% за 7 днів</td><td>10%=12€, 5%=6€</td><td>6€ економія, 114€</td></tr>
-      <tr><td>г) Ноутбук 200 Wh, 60% заряду</td><td>10%=20, 60%=120</td><td>120 Wh</td></tr>
-    </table>
+    <div class="dialog"><div class="avatar tim">Т</div><div class="bubble tim">Розв'яжи в зошиті — потім впиши відповідь!</div></div>
+
+    <div class="task-item" style="margin-top:10px;">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">а) Велосипед коштує 200€. Знижка 30%. Скільки зекономиш?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Знижка: <input type="text" class="fill-input" id="r25a_a" style="width:80px;" placeholder="?€">
+        &nbsp; Заплатиш: <input type="text" class="fill-input" id="r25a_b" style="width:80px;" placeholder="?€">
+      </div>
+    </div>
+
+    <div class="task-item">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">б) На турнірі 80 гравців. 20% потрапляють в основну сітку. Скільки гравців?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Відповідь: <input type="text" class="fill-input" id="r25b_a" style="width:110px;" placeholder="? гравців">
+      </div>
+    </div>
+
+    <div class="task-item">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">в) Рахунок 120€. Skonto 5% якщо заплатиш за 7 днів. Скільки зекономиш?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Знижка: <input type="text" class="fill-input" id="r25c_a" style="width:80px;" placeholder="?€">
+        &nbsp; Заплатиш: <input type="text" class="fill-input" id="r25c_b" style="width:80px;" placeholder="?€">
+      </div>
+    </div>
+
+    <div class="task-item">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">г) Акумулятор ноутбука 200 Wh. Заряджено 60%. Скільки Wh?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Відповідь: <input type="text" class="fill-input" id="r25d_a" style="width:110px;" placeholder="? Wh">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check green" onclick="check25()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset25()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans25"></div>
   </div>
 </div>
 
@@ -399,9 +432,9 @@ h1,h2,.badge,.task-title,.day-title{font-family:'Nunito',sans-serif;}
   <div class="card-info purple">
     <div class="info-title">📌 Формула</div>
     <div style="font-size:20px;font-weight:800;font-family:'Nunito',sans-serif;text-align:center;padding:12px 0;color:var(--purple);">🟡 W = 🔵 G × 🔴 p ÷ 100</div>
-    <div class="info-body">Приклад: у класі <strong>120</strong> учнів. <strong>25%</strong> займаються спортом.</div>
-    <div class="code-block">G = 120,  p = 25
-W = 120 × 25 ÷ 100 = 3000 ÷ 100 = 30 учнів</div>
+    <div class="info-body">Приклад: у паралелі <strong>300</strong> учнів. <strong>20%</strong> займаються спортом.</div>
+    <div class="code-block">G = 300,  p = 20
+W = 300 × 20 ÷ 100 = 6000 ÷ 100 = 60 учнів</div>
   </div>
 
   <div class="card-info purple">
@@ -456,13 +489,43 @@ W = 120 × 25 ÷ 100 = 3000 ÷ 100 = 30 учнів</div>
   <div class="card">
     <div class="task-num">★★ Завдання 3.4</div>
     <div class="task-title">Реальні задачі</div>
-    <table class="data-table purple">
-      <tr><th>Задача</th><th>Розв'язання</th><th>Відповідь</th></tr>
-      <tr><td>а) Ноутбук 400€, знижка 15%</td><td>400×15÷100=60€. 400−60</td><td>60€ знижка, 340€</td></tr>
-      <tr><td>б) Місто 120 000 жит., 30% спорт</td><td>120000×30÷100</td><td>36 000</td></tr>
-      <tr><td>в) Skonto: 200€, 3%</td><td>200×3÷100=6€. 200−6</td><td>6€, 194€</td></tr>
-      <tr><td>г) Батарея 400 mAh, 80%</td><td>400×80÷100</td><td>320 mAh</td></tr>
-    </table>
+    <div class="dialog"><div class="avatar tim">Т</div><div class="bubble tim">Розв'яжи в зошиті — потім впиши відповідь!</div></div>
+
+    <div class="task-item" style="margin-top:10px;">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">а) Ноутбук коштує 400€. Знижка 15%. Скільки зекономиш?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Знижка: <input type="text" class="fill-input" id="r34a_a" style="width:80px;" placeholder="?€">
+        &nbsp; Заплатиш: <input type="text" class="fill-input" id="r34a_b" style="width:80px;" placeholder="?€">
+      </div>
+    </div>
+
+    <div class="task-item">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">б) У місті 120 000 жителів. 30% займаються спортом. Скільки людей?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Відповідь: <input type="text" class="fill-input" id="r34b_a" style="width:110px;" placeholder="? людей">
+      </div>
+    </div>
+
+    <div class="task-item">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">в) Рахунок 200€. Skonto 3% якщо заплатиш швидко. Скільки зекономиш?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Знижка: <input type="text" class="fill-input" id="r34c_a" style="width:80px;" placeholder="?€">
+        &nbsp; Заплатиш: <input type="text" class="fill-input" id="r34c_b" style="width:80px;" placeholder="?€">
+      </div>
+    </div>
+
+    <div class="task-item">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">г) Акумулятор 400 mAh. Використано 80%. Скільки mAh використано?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Відповідь: <input type="text" class="fill-input" id="r34d_a" style="width:110px;" placeholder="? mAh">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check purple" onclick="check34()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset34()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans34"></div>
   </div>
 
   <!-- Завдання 3.5 Бонус -->
@@ -471,11 +534,26 @@ W = 120 × 25 ÷ 100 = 3000 ÷ 100 = 30 учнів</div>
     <div class="task-title">Бонус Софії — дробові відсотки</div>
     <div class="dialog"><div class="avatar tim">Т</div><div class="bubble tim">А що якщо відсоток дробовий — наприклад 2,5%?</div></div>
     <div class="dialog"><div class="avatar sofia">С</div><div class="bubble sofia">Формула та сама! Просто числа трохи складніші.</div></div>
-    <table class="data-table purple" style="margin-top:10px;">
-      <tr><th>Задача</th><th>Розв'язання</th><th>Відповідь</th></tr>
-      <tr><td>а) Рахунок 200€, Skonto 2,5%</td><td>200×2,5÷100. Або 200×5÷100÷2</td><td>5€</td></tr>
-      <tr><td>б) 120 000 жит., 12,5% діти</td><td>120000×12,5÷100. Або 120000÷8</td><td>15 000</td></tr>
-    </table>
+
+    <div class="task-item" style="margin-top:10px;">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">а) Рахунок 200€. Skonto 2,5%. Скільки зекономиш?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Знижка: <input type="text" class="fill-input" id="r35a_a" style="width:80px;" placeholder="?€">
+      </div>
+    </div>
+
+    <div class="task-item">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">б) У місті 120 000 жителів. 12,5% — діти. Скільки дітей?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Відповідь: <input type="text" class="fill-input" id="r35b_a" style="width:110px;" placeholder="? людей">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check purple" onclick="check35()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset35()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans35"></div>
   </div>
 </div>
 
@@ -489,7 +567,7 @@ W = 120 × 25 ÷ 100 = 3000 ÷ 100 = 30 учнів</div>
   <div class="card-info red">
     <div class="info-title">📌 Формула для p%</div>
     <div style="font-size:20px;font-weight:800;font-family:'Nunito',sans-serif;text-align:center;padding:12px 0;color:var(--red);">🔴 p% = 🟡 W ÷ 🔵 G × 100</div>
-    <div class="info-body">Приклад: у класі <strong>40</strong> учнів, <strong>10</strong> відмінників. Скільки відсотків?</div>
+    <div class="info-body">Приклад: у паралелі <strong>40</strong> учнів, <strong>10</strong> відмінників. Скільки відсотків?</div>
     <div class="code-block">p = 10 ÷ 40 × 100 = 25%</div>
     <div class="dialog" style="margin-top:10px;"><div class="avatar sofia">С</div><div class="bubble sofia">Ділю частину на ціле і множу на 100. Завжди: Частина ÷ Ціле — не навпаки!</div></div>
   </div>
@@ -567,13 +645,41 @@ W = 120 × 25 ÷ 100 = 3000 ÷ 100 = 30 учнів</div>
   <div class="card">
     <div class="task-num">★★ Завдання 4.6</div>
     <div class="task-title">Реальні задачі</div>
-    <table class="data-table red">
-      <tr><th>Задача</th><th>Розв'язання</th><th>Відповідь</th></tr>
-      <tr><td>а) 30 учнів, 24 написали добре</td><td>p=24÷30×100</td><td>80%</td></tr>
-      <tr><td>б) 200 товарів, 30 продали</td><td>p=30÷200×100</td><td>15%</td></tr>
-      <tr><td>в) 80 гостей, 20% замовили піцу — скільки?</td><td>W=80×20÷100=16</td><td>16 гостей</td></tr>
-      <tr><td>г) Скільки % НЕ замовили піцу?</td><td>64÷80×100. Перевірка: 20%+80%=100%✓</td><td>80%</td></tr>
-    </table>
+    <div class="dialog"><div class="avatar tim">Т</div><div class="bubble tim">Розв'яжи в зошиті — потім впиши відповідь!</div></div>
+
+    <div class="task-item" style="margin-top:10px;">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">а) У класі 30 учнів. 24 написали контрольну добре. Скільки це відсотків?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Відповідь: <input type="text" class="fill-input" id="r46a_a" style="width:80px;" placeholder="?%">
+      </div>
+    </div>
+
+    <div class="task-item">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">б) У магазині 200 товарів. Продали 30. Скільки відсотків продали?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Відповідь: <input type="text" class="fill-input" id="r46b_a" style="width:80px;" placeholder="?%">
+      </div>
+    </div>
+
+    <div class="task-item">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">в) На вечірці 80 гостей. 20% замовили піцу. Скільки людей замовили піцу?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Відповідь: <input type="text" class="fill-input" id="r46c_a" style="width:100px;" placeholder="? гостей">
+      </div>
+    </div>
+
+    <div class="task-item">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">г) З тих самих 80 гостей — скільки відсотків НЕ замовили піцу?</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;">
+        Відповідь: <input type="text" class="fill-input" id="r46d_a" style="width:80px;" placeholder="?%">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check red" onclick="check46()">Перевірити ✓</button>
+      <button class="btn-clear" onclick="reset46()">Скинути</button>
+    </div>
+    <div class="answer-box" id="ans46"></div>
   </div>
 
   <!-- Завдання 4.7 Бонус -->
@@ -613,7 +719,7 @@ function updateProgress(){
 }
 
 function checkDayComplete(day){
-  const req={0:['t11','t12','t13','t14'],1:['t21','t22','t23','t24'],2:['t31','t32','t33'],3:['t41','t42','t43','t44','t45']};
+  const req={0:['t12','t13','t14'],1:['t21','t22','t24'],2:['t31','t32','t33'],3:['t41','t42','t43','t44','t45']};
   if(req[day]&&req[day].every(t=>taskDone[t])&&!dayDone[day]){
     dayDone[day]=true;updateProgress();
     document.getElementById('tab'+(day+1)).classList.add('done');
@@ -636,7 +742,7 @@ function showAnswer(id,html,ok){
   el.style.color=ok?'#166534':'#991B1B';
 }
 
-function inp(id,w=60,ph='?'){return `<input type="number" id="${id}" class="fill-input" style="width:${w}px;" placeholder="${ph}">`;}
+function inp(id,w=60,ph='?',cls=''){return `<input type="number" id="${id}" class="fill-input${cls?' '+cls:''}" style="width:${w}px;" placeholder="${ph}">`;}
 function inpT(id,w=60,ph='?'){return `<input type="text" id="${id}" class="fill-input" style="width:${w}px;" placeholder="${ph}">`;}
 function val(id){const el=document.getElementById(id);return el?parseFloat(el.value):null;}
 function sval(id){const el=document.getElementById(id);return el?el.value.trim():'';}
@@ -690,10 +796,10 @@ function initTask12(){
     wrap.innerHTML+=`<div class="task-item">
       <div style="font-size:13px;font-weight:600;margin-bottom:6px;">${it.sit}</div>
       <div class="task-row">
-        <span style="font-size:13px;">1% від ${it.g} = ${it.g}÷100 =</span>
-        ${inp('t12a'+i,50,'')}
-        <span style="font-size:13px;margin-left:6px;">${it.p}% =</span>
-        ${inp('t12b'+i,50,'')}×${it.p} =
+        <span style="font-size:13px;">1% від ${it.g} =</span>
+        ${inp('t12a'+i,56,'','yellow')}
+        <span style="font-size:13px;margin-left:10px;">${it.p}% від ${it.g} =</span>
+        ${inp('t12b'+i,56,'','yellow')} × ${it.p} =
         ${inp('t12c'+i,60,'')}
       </div>
     </div>`;
@@ -765,6 +871,7 @@ function check14(){
   let ok=true,msgs=[];
   correct.forEach((c,i)=>{
     const s=t14sel[i];
+    if(!s){msgs.push(`❌ ${String.fromCharCode(1072+i)}): не вибрано`);ok=false;return;}
     const isOk=(s==='ok')===c;
     if(isOk)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
     else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): ${['','','правильно 100 (4×25)','','правильно 60 (÷100, не ÷10)'][i]}`);ok=false;}
@@ -787,10 +894,10 @@ function initTask21(){
     wrap.innerHTML+=`<div class="task-item">
       <div style="font-size:13px;font-weight:600;margin-bottom:6px;">${it.sit}</div>
       <div class="task-row">
-        <span style="font-size:13px;">10% від ${it.g} = ${it.g}÷10 =</span>
-        ${inp('t21a'+i,50,'')}
-        <span style="font-size:13px;margin-left:6px;">${it.p}% =</span>
-        ${inp('t21b'+i,50,'')}×${it.m} =
+        <span style="font-size:13px;">10% від ${it.g} =</span>
+        ${inp('t21a'+i,56,'','yellow')}
+        <span style="font-size:13px;margin-left:10px;">${it.p}% від ${it.g} =</span>
+        ${inp('t21b'+i,56,'','yellow')} × ${it.m} =
         ${inp('t21c'+i,60,'')}
       </div>
     </div>`;
@@ -893,7 +1000,9 @@ function check24(){
   const correct=[true,false,true,true,true];
   let ok=true,msgs=[];
   correct.forEach((c,i)=>{
-    const isOk=(t24sel[i]==='ok')===c;
+    const s=t24sel[i];
+    if(!s){msgs.push(`❌ ${String.fromCharCode(1072+i)}): не вибрано`);ok=false;return;}
+    const isOk=(s==='ok')===c;
     if(isOk)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
     else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): ${i===1?'×2 не ×20 → 12×2=24':''}`);ok=false;}
   });
@@ -916,7 +1025,7 @@ function initTask31(){
       <div style="font-size:13px;font-weight:600;margin-bottom:6px;">${it.sit}</div>
       <div class="task-row">
         <span style="font-size:13px;">W = ${it.g} ×</span>
-        ${inp('t31p'+i,50,it.p)}
+        ${inp('t31p'+i,56,'','yellow')}
         <span style="font-size:13px;">÷ 100 =</span>
         ${inp('t31w'+i,60,'')}
       </div>
@@ -924,11 +1033,12 @@ function initTask31(){
   });
 }
 function check31(){
+  const pAnswers=[10,25,50,20];
   const answers=[20,100,60,60];
   let ok=true,msgs=[];
   answers.forEach((w,i)=>{
-    const wv=val('t31w'+i);
-    if(wv===w)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
+    const pv=val('t31p'+i),wv=val('t31w'+i);
+    if(pv===pAnswers[i]&&wv===w)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
     else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): попробуй ще раз`);ok=false;}
   });
   showAnswer('ans31',msgs.join('<br>'),ok);
@@ -987,7 +1097,9 @@ function check33(){
   const correct=[true,false,true,false,false];
   let ok=true,msgs=[];
   correct.forEach((c,i)=>{
-    const isOk=(t33sel[i]==='ok')===c;
+    const s=t33sel[i];
+    if(!s){msgs.push(`❌ ${String.fromCharCode(1072+i)}): не вибрано`);ok=false;return;}
+    const isOk=(s==='ok')===c;
     if(isOk)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
     else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): попробуй ще раз`);ok=false;}
   });
@@ -1146,7 +1258,9 @@ function check45(){
   const correct=[true,false,true,true,false];
   let ok=true,msgs=[];
   correct.forEach((c,i)=>{
-    const isOk=(t45sel[i]==='ok')===c;
+    const s=t45sel[i];
+    if(!s){msgs.push(`❌ ${String.fromCharCode(1072+i)}): не вибрано`);ok=false;return;}
+    const isOk=(s==='ok')===c;
     if(isOk)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
     else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): попробуй ще раз`);ok=false;}
   });
@@ -1154,10 +1268,138 @@ function check45(){
   if(ok){taskDone['t45']=true;checkDayComplete(3);}
 }
 
+
+// ── РЕАЛЬНІ ЗАДАЧІ ──
+function makeRealChecker(ids, answers, btnId){
+  let ok=true, msgs=[];
+  ids.forEach((id,i)=>{
+    const el=document.getElementById(id+'_a');
+    if(!el)return;
+    const v=el.value.trim().toLowerCase();
+    const exp=answers[i].toLowerCase();
+    if(v===exp||v===exp.replace('€','').trim()||v===exp.replace(' ','').trim()){
+      msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
+    } else if(v===''){
+      msgs.push(`⬜ ${String.fromCharCode(1072+i)}): не заповнено`);ok=false;
+    } else {
+      msgs.push(`❌ ${String.fromCharCode(1072+i)}): відповідь: ${answers[i]}`);ok=false;
+    }
+  });
+  showAnswer(btnId, msgs.join('<br>'), ok);
+}
+function resetReal(prefix,n,ansId){
+  for(let i=0;i<n;i++){
+    const letters=['a','b','c','d'];
+    ['_s','_a'].forEach(s=>{const el=document.getElementById(prefix+letters[i]+s);if(el)el.value='';});
+  }
+  document.getElementById(ansId).className='answer-box';
+}
+function check15(){
+  const checks=[
+    {ids:['r15a_a','r15a_b'], exps:['40','160'], label:'а)'},
+    {ids:['r15b_a'],          exps:['30'],        label:'б)'},
+    {ids:['r15c_a','r15c_b'], exps:['6','294'],   label:'в)'},
+    {ids:['r15d_a'],          exps:['100'],        label:'г)'},
+  ];
+  let ok=true, msgs=[];
+  checks.forEach(ch=>{
+    const vals=ch.ids.map(id=>{const el=document.getElementById(id);return el?el.value.trim().replace(/[€мАhучнів\s]/g,''):''});
+    const empty=vals.some(v=>v==='');
+    if(empty){msgs.push(`❌ ${ch.label} не заповнено`);ok=false;return;}
+    const correct=vals.every((v,i)=>v===ch.exps[i]);
+    if(correct)msgs.push(`✅ ${ch.label} вірно!`);
+    else{msgs.push(`❌ ${ch.label} перевір ще раз`);ok=false;}
+  });
+  showAnswer('ans15',msgs.join('<br>'),ok);
+  if(ok){taskDone['t15']=true;checkDayComplete(0);}
+}
+function reset15(){
+  ['r15a_a','r15a_b','r15b_a','r15c_a','r15c_b','r15d_a'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('ans15').className='answer-box';
+}
+function check25(){
+  const checks=[
+    {ids:['r25a_a','r25a_b'], exps:['60','140'], label:'а)'},
+    {ids:['r25b_a'],          exps:['16'],        label:'б)'},
+    {ids:['r25c_a','r25c_b'], exps:['6','114'],   label:'в)'},
+    {ids:['r25d_a'],          exps:['120'],        label:'г)'},
+  ];
+  let ok=true, msgs=[];
+  checks.forEach(ch=>{
+    const vals=ch.ids.map(id=>{const el=document.getElementById(id);return el?el.value.trim().replace(/[€WhWhгравцівWh\s]/g,''):''});
+    const empty=vals.some(v=>v==='');
+    if(empty){msgs.push(`❌ ${ch.label} не заповнено`);ok=false;return;}
+    const correct=vals.every((v,i)=>v===ch.exps[i]);
+    if(correct)msgs.push(`✅ ${ch.label} вірно!`);
+    else{msgs.push(`❌ ${ch.label} перевір ще раз`);ok=false;}
+  });
+  showAnswer('ans25',msgs.join('<br>'),ok);
+}
+function reset25(){
+  ['r25a_a','r25a_b','r25b_a','r25c_a','r25c_b','r25d_a'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('ans25').className='answer-box';
+}
+function check34(){
+  const checks=[
+    {ids:['r34a_a','r34a_b'], exps:['60','340'], label:'а)'},
+    {ids:['r34b_a'],          exps:['36000'],     label:'б)'},
+    {ids:['r34c_a','r34c_b'], exps:['6','194'],   label:'в)'},
+    {ids:['r34d_a'],          exps:['320'],        label:'г)'},
+  ];
+  let ok=true, msgs=[];
+  checks.forEach(ch=>{
+    const vals=ch.ids.map(id=>{const el=document.getElementById(id);return el?el.value.trim().replace(/[€mAhлюдей\s]/g,'').replace(/\s/g,''):''});
+    const empty=vals.some(v=>v==='');
+    if(empty){msgs.push(`❌ ${ch.label} не заповнено`);ok=false;return;}
+    const correct=vals.every((v,i)=>v===ch.exps[i]);
+    if(correct)msgs.push(`✅ ${ch.label} вірно!`);
+    else{msgs.push(`❌ ${ch.label} перевір ще раз`);ok=false;}
+  });
+  showAnswer('ans34',msgs.join('<br>'),ok);
+}
+function reset34(){
+  ['r34a_a','r34a_b','r34b_a','r34c_a','r34c_b','r34d_a'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('ans34').className='answer-box';
+}
+function check35(){
+  let ok=true,msgs=[];
+  [['r35a_a','5€'],['r35b_a','15 000']].forEach(([id,exp],i)=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    const v=el.value.trim();
+    if(v.replace('€','').trim()===exp.replace('€','').trim()||v===exp)msgs.push(`✅ ${String.fromCharCode(1072+i)}): вірно!`);
+    else if(v===''){msgs.push(`⬜ ${String.fromCharCode(1072+i)}): не заповнено`);ok=false;}
+    else{msgs.push(`❌ ${String.fromCharCode(1072+i)}): відповідь: ${exp}`);ok=false;}
+  });
+  showAnswer('ans35',msgs.join('<br>'),ok);
+}
+function reset35(){['r35a_s','r35a_a','r35b_s','r35b_a'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('ans35').className='answer-box';}
+function check46(){
+  const checks=[
+    {id:'r46a_a', exp:'80',  label:'а)'},
+    {id:'r46b_a', exp:'15',  label:'б)'},
+    {id:'r46c_a', exp:'16',  label:'в)'},
+    {id:'r46d_a', exp:'80',  label:'г)'},
+  ];
+  let ok=true, msgs=[];
+  checks.forEach(ch=>{
+    const el=document.getElementById(ch.id);
+    const v=el?el.value.trim().replace(/[%гостейлюдей\s]/g,''):'';
+    if(v===''){msgs.push(`❌ ${ch.label} не заповнено`);ok=false;}
+    else if(v===ch.exp){msgs.push(`✅ ${ch.label} вірно!`);}
+    else{msgs.push(`❌ ${ch.label} перевір ще раз`);ok=false;}
+  });
+  showAnswer('ans46',msgs.join('<br>'),ok);
+}
+function reset46(){
+  ['r46a_a','r46b_a','r46c_a','r46d_a'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('ans46').className='answer-box';
+}
+
 // ── INIT ──
 window.onload=function(){
-  initTask11();initTask12();initTask13();initTask14();
-  initTask21();initTask22();initTask23();initTask24();
+  initTask12();initTask13();initTask14();
+  initTask21();initTask22();initTask24();
   initTask31();initTask32();initTask33();
   initTask41();initTask42();initTask43();initTask44();initTask45();
 };
